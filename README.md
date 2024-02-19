@@ -1,2 +1,3 @@
 # XNBotnet
-Simple Botnet
+
+HTTP Botnet written in PHP, and stub written in C#
