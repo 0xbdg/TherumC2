@@ -1,3 +1,3 @@
 # XNBotnet
 
-HTTP Botnet written in PHP, and stub written in C#
+HTTP Botnet written in Flask (server), and stub written in C#
