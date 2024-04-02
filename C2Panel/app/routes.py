@@ -3,8 +3,8 @@ from app import app
 
 @app.route('/')
 def login():
-    return render_template("login.html")
+    return render_template("auth/login.html")
 
 @app.route("/home")
-def home():
-    return render_template("home.html")
+def index():
+    return render_template("pages/index.html")
