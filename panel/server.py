@@ -1,4 +1,4 @@
-from flask import Flask,render_template, request, redirect, jsonify
+from flask import Flask,render_template, request, redirect, jsonify,session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
 
@@ -47,13 +47,31 @@ def shell(bot_id):
     id = bot_id
     return render_template("shell.html", id=id)
 
-
+"""
 @app.route("/api/bot/<int:id>", methods=['GET', 'POST'])
 def shell_handle(id):
     data = request.get_json()
     comm = data.get('command')
     
+    bots = {
+        "id":id,
+        "command":comm
+    }
 
+    return jsonify(bots)
+"""
+
+@app.route("/send_command")
+def send_command():
+    id = request.args.get("bot_id")
+    command = request.args.get("command")
+
+    if id and command:
+        # Simpan command ke session
+        session['command'] = command
+        print(f"Session command: {session.get('command')}")
+
+    return jsonify({"bot_id":id, "command":command})
 
 if __name__ == "__main__":
     with app.app_context():

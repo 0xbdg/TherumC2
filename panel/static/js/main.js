@@ -1,18 +1,21 @@
-async function ShellForm(){
-    const id = document.getElementById("bot_id").value;
-    const command = document.getElementById("command").value;
+window.onload = function() {
+    const savedCommand = localStorage.getItem('command');
+    if (savedCommand) {
+      document.getElementById('command').value = savedCommand;
+    }
+  };
 
-    const response = await fetch(`/api/bot/${id}`, {
-        method:"POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: id,
-            command: command
-        })
-    });
+function submitCommand() {
 
-    const result = await response.json();
-    document.getElementById("result").textContent = JSON.stringify(result, null, 2);
+    // Simpan nilai input ke Local Storage sebelum submit
+
+    var botId = document.getElementById('bot_id').value;
+    var command = document.getElementById('command').value;
+    localStorage.setItem('command', command);
+    
+    // Pastikan data dikodekan dengan benar
+    var url = '/send_command?bot_id=' + encodeURIComponent(botId) + '&command=' + encodeURIComponent(command);
+
+    // Redirect ke URL yang sesuai
+    window.location.href = url;
 }

@@ -3,10 +3,9 @@
 {% block title %} Shell | {{ id }} {% endblock %}
 
 {% block contents %}
-<form onsubmit="event.preventDefault(); ShellForm();">
-    <input type="text" name="bot_id" id="bot_id" value="{{ id }}">
-    <input type="text" name="command" id="command">
-    <button type="submit">Submit</button>
+<form method="get">
+<input type="text" name="id" id="bot_id" value="{{ id }}">
+<input type="text" name="command" id="command">
+<button type="submit" onclick="location.href='/send_command?bot_id={{id}}&command='+document.getElementById('command')">Submit</button>
 </form>
-<pre id="result"></pre>
 {% endblock %}
