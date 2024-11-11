@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %} Shell | {{ id }} {% endblock %}
+
+{% block contents %}
+<form onsubmit="event.preventDefault(); ShellForm();">
+    <input type="text" name="bot_id" id="bot_id" value="{{ id }}">
+    <input type="text" name="command" id="command">
+    <button type="submit">Submit</button>
+</form>
+<pre id="result"></pre>
+{% endblock %}
