@@ -6,10 +6,11 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 migrate = Migrate()
 
-
 def create_app(config_class=Config):
     app = Flask(__name__, template_folder="templates/")
     app.config.from_object(config_class)
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
+    app.config['DEBUG'] = True
    
     db.init_app(app)
     migrate.init_app(app, db) 
