@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block contents %}
+<h1>INI DASHBOARD</h1>
+
+<table>
+    <tr>
+      <th>HOSTNAME</th>
+      <th>IP ADDRESS</th>
+      <th>REGION</th>
+      <th>OS</th>
+      <th>UPTIME</th>
+      <th>ACTION</th>
+    </tr>
+    {% for agent_id,bot in bots.items() %}
+    <tr>
+      <td>{{ bot.Hostname }}</td>
+      <td>{{ bot.Address }}</td>
+      <td>{{ bot.Region }}</td>
+      <td>{{ bot.OS}}</td>
+      <td>{{ bot.last_check}}</td>
+      <td><button onclick=""><i class="fa-solid fa-rotate-right"></i></button><button onclick=""><i class="fa-solid fa-folder"></i></button><button onclick="location.href='';"><i class="fa-solid fa-terminal"></i></button></th> 
+    </tr>
+    {% endfor %}  
+</table> 
+{% endblock contents %}
