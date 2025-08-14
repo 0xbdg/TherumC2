@@ -28,8 +28,7 @@ def get_task():
     resp = requests.get(SERVER_URL + "/task/"+AGENT_ID, headers=headers)
 
     if resp.status_code == 200:
-        for t in resp.json():
-            print(t)
+        print(resp.json())
 
 def status(): 
     payload = {"agent_id": AGENT_ID, "hostname":platform.node(),"uptime":get_uptime(), "os":platform.system() }
@@ -37,7 +36,6 @@ def status():
     try:
         resp = requests.post(SERVER_URL + "/status", json=payload, headers=headers)
         
-
         if resp.status_code == 200:
             data = resp.json()
             print(data)

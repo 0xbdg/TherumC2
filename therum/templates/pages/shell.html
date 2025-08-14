@@ -3,7 +3,7 @@
 {% block title %} Shell | {{ id }} {% endblock %}
 
 {% block contents %}
-<form method="get">
+<form method="POST">
 <input type="text" name="id" id="bot_id" value="{{ id }}">
 <input type="text" name="command" id="command">
 <button type="submit" onclick="location.href='/send_command?bot_id={{id}}&command='+document.getElementById('command')">Submit</button>
