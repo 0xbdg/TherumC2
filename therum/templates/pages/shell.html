@@ -3,9 +3,10 @@
 {% block title %} Shell | {{ id }} {% endblock %}
 
 {% block contents %}
-<form method="POST">
-<input type="text" name="id" id="bot_id" value="{{ id }}">
-<input type="text" name="command" id="command">
-<button type="submit" onclick="location.href='/send_command?bot_id={{id}}&command='+document.getElementById('command')">Submit</button>
+<form method="POST" action="/create_task">
+    <input type="hidden" name="csrf_token" value="3641d478d7f992f06fa063d7db5997f072bbc3abcd1e2d2c412b5296b4f84634">
+    <input type="hidden" name="agent_id" id="bot_id" value="{{ id }}">
+    <input type="text" name="command" id="command">
+    <button type="submit">Submit</button>
 </form>
 {% endblock %}

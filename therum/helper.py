@@ -9,3 +9,5 @@ def get_region(ip):
             return data
         except:
             return "None"
+    else:
+        return "None"

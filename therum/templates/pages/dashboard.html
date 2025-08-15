@@ -19,7 +19,7 @@
       <td>{{ bot.Region }}</td>
       <td>{{ bot.OS}}</td>
       <td>{{ bot.last_check}}</td>
-      <td><button onclick=""><i class="fa-solid fa-rotate-right"></i></button><button onclick=""><i class="fa-solid fa-folder"></i></button><button onclick="location.href='';"><i class="fa-solid fa-terminal"></i></button></th> 
+      <td><button onclick=""><i class="fa-solid fa-rotate-right"></i></button><button onclick=""><i class="fa-solid fa-folder"></i></button><button class="bg-gray-100" onclick="location.href="{{ url_for('main.console', agent_id=agent_id) }}";"><i class="fa-solid fa-terminal"></i></button></th> 
     </tr>
     {% endfor %}  
 </table> 
