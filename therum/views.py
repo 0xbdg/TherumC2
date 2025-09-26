@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, redirect
 from therum.helper import get_region
 
 bp = Blueprint('main', __name__)

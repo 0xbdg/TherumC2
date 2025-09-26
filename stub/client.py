@@ -7,7 +7,8 @@ import os
 import subprocess
 
 SERVER_URL = "http://127.0.0.1:5000"
-AGENT_ID = str(uuid.uuid4())
+#AGENT_ID = str(uuid.uuid4())
+AGENT_ID = "a3d48220-27d8-4551-bb36-157433163ad1"
 USER_AGENT = "Mozilla/5.0 (Linux; Android 8.1.0; Core-X3 Build/OPM1.171019.019) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.105 Mobile Safari/537.36"
 
 headers = {
