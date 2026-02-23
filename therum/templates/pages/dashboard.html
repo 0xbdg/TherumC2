@@ -3,7 +3,38 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block contents %}
-<table class="shadow-md w-full text-center">
+<div class="container">
+    <div class="world">
+        {% include "components/worldmap.html" %}
+    </div>
+    <div class="status">
+        <div class="box">
+            <div class="status-box">
+                <p>AGENT</p>
+                <p>10</p>
+            </div>
+            <div class="status-box">
+                <p>AGENT</p>
+                <p>10</p>
+            </div>
+            <div class="status-box">
+                <p>AGENT</p>
+                <p>10</p>
+            </div>
+        </div>
+        <div class="status-log">
+            <table class="log">
+                <tr>
+                    <th>Log</th>
+                </tr>
+                <tr>
+                    <td>djjfdifjifjij</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<table class="agent-table">
     <tr class="border-b">
       <th>HOSTNAME</th>
       <th>IP ADDRESS</th>
