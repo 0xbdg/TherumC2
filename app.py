@@ -1,6 +1,6 @@
-from therum import create_app
+from therum import Therum
 
-app = create_app()
+app = Therum()
 
 if __name__ == "__main__":
     app.run()

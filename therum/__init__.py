@@ -6,8 +6,8 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 migrate = Migrate()
 
-def create_app(config_class=Config):
-    app = Flask(__name__, template_folder="templates/", static_folder="static/")
+def Therum(config_class=Config):
+    app = Flask(__name__, template_folder="../ui/templates/", static_folder="../ui/static/")
     app.config.from_object(config_class)
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.config['DEBUG'] = True

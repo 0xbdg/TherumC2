@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "";
+}
+
+html,
+body {
+    height: 100%;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+nav .brand {
+    display: flex;
+    margin: 5px;
+    align-items: center;
+}
+
+.world {
+    border: 1px solid black;
+    margin: 5px;
+}
+
+#vmap {
+    height: 100%;
+    width: 1000px;
+}
+
+.container {
+    display: flex
+}
+
+.status {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.status .status-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.box {
+    background-color: yellow;
+    width: 250px;
+    height: 100px;
+    border: 5px solid black;
+    padding: 5px;
+    margin: 5px;
+    justify-content: space-between;
+}
+
+.box p {
+    align-items: center;
+    text-align: center;
+    padding: 5px;
+
+}
+
+.activity {
+    margin: 5px;
+    border: 1px solid black;
+    display: grid;
+}
+
+.over {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.table-act {
+    width: 100%;
+}
+
+.table-act td {
+    height: 40px;
+}
+
+.table-act thead {
+    height: 50px;
+    background-color: grey;
+}
+
+.table-act td:hover {
+    background-color: red;
+}
+
+.agent-table {
+    text-align: center;
+    width: 100%;
+    margin: 5px;
+    border: 1px solid black
+}
