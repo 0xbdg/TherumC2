@@ -10,15 +10,15 @@
     <div class="status">
         <div class="status-box">
             <div class="box">
-                <p>AGENT</p>
+                <p><span class="nf-md-robot_angry" style="font-size: 24px;">󱚝 </span>AGENTS</p>
                 <p>10</p>
             </div>
             <div class="box">
-                <p>AGENT</p>
+                <p><span class="nf-fa-users" style="font-size: 24px;"> </span>USERS</p>
                 <p>10</p>
             </div>
             <div class="box">
-                <p>AGENT</p>
+                <p><span class="nf-md-connection" style="font-size: 24px;">󱘖 </span>AGENT ONLINE</p>
                 <p>10</p>
             </div>
         </div>
@@ -32,7 +32,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>[*] Server started (127.0.0.1:5000)</td> 
+                            <td>[*] Server started at 20-20-2020</td> 
                         </tr> 
                         <tr>
                             <td>[+] Agent [ID] has been added on database</td> 
@@ -78,9 +78,8 @@
                 <td>{{ bot.OS}}</td>
                 <td>{{ bot.last_check}}</td>
                 <td>
-                    <button onclick=""><i class="fa-solid fa-rotate-right"></i></button>
-                    <button onclick=""><i class="fa-solid fa-folder"></i></button>
-                    <button class="bg-gray-100" onclick="location.href='{{ url_for('main.console', agent_id=agent_id) }}';"><i class="fa-solid fa-terminal"></i></button>
+                    <a href=""><span class="nf-fa-refresh" style="font-size: 24px;"> </span></a> 
+                    <a style="text-decoration: hidden;" href="{{ url_for('main.console', agent_id=agent_id) }}"><span class="nf-dev-terminal" style="font-size: 24px;"></span></a>
                 </td> 
             </tr> 
         {% endfor %}  
