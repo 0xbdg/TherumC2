@@ -128,3 +128,14 @@ nav .menu {
     margin: 5px;
     border: 1px solid black
 }
+
+.console {
+    display: flex;
+    height: 100%;
+}
+
+#terminal {
+    width: 100%;
+    margin: 10px;
+    justify-content: center;
+}

@@ -3,10 +3,37 @@
 {% block title %} Shell | {{ id }} {% endblock %}
 
 {% block contents %}
-<form method="POST" action="/create_task">
-    <input type="hidden" name="csrf_token" value="3641d478d7f992f06fa063d7db5997f072bbc3abcd1e2d2c412b5296b4f84634">
-    <input type="hidden" name="agent_id" id="bot_id" value="{{ id }}">
-    <input type="text" name="command" id="command">
-    <button type="submit">Submit</button>
-</form>
+      <div class="console">
+        <div id="terminal"></div>
+      </div>
+
+      <script>
+        var term = new Terminal({
+              cursorBlink: true,
+        });
+        term.open(document.getElementById('terminal'));
+        term.write("[agent@{{ id }}]:~# ");
+        term.onData(data => {
+            if (data === '\r'){
+                term.write("\r\n");
+
+                if (data === "clear"){
+                    term.clear();
+                }
+
+                else{
+                    term.write("command not found\r\n");
+                }
+                term.write("[agent@{{ id }}]:~# ");
+
+            }
+
+            else if (data === '\x7f'){
+                term.write('\b \b');
+            }
+            else{
+                term.write(data);
+            }
+        });
+      </script>
 {% endblock %}
