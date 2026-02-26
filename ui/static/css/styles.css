@@ -1,26 +1,46 @@
+@font-face {
+    font-family: Adawita;
+    src: url(../fonts/AdwitaFont/AdwaitaMonoNerdFontMono-Regular.ttf)
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "";
-}
-
-html,
-body {
-    height: 100%;
+    font-family: Adawita;
 }
 
 nav {
+    font-size: 16px;
+    background-color: grey;
     display: flex;
     align-items: center;
     flex-direction: row;
     justify-content: space-between;
+    height: 60px;
+}
+
+nav a {
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+}
+
+nav a:hover {
+    color: white;
 }
 
 nav .brand {
     display: flex;
     margin: 5px;
     align-items: center;
+    gap: 5px;
+}
+
+nav .menu {
+    margin: 10px;
+    display: flex;
+    gap: 15px;
 }
 
 .world {
@@ -29,6 +49,7 @@ nav .brand {
 }
 
 #vmap {
+    display: grid;
     height: 100%;
     width: 1000px;
 }
@@ -90,8 +111,11 @@ nav .brand {
     background-color: grey;
 }
 
-.table-act td:hover {
-    background-color: red;
+.table-act tbody {
+    height: 250px;
+    display: block;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .agent-table {
