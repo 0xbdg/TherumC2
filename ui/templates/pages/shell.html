@@ -8,9 +8,11 @@
       </div>
 
       <script>
+        const ws = io()
         var term = new Terminal({
               cursorBlink: true,
         });
+        let command = ""
         term.open(document.getElementById('terminal'));
         term.write("[agent@{{ id }}]:~# ");
         term.onData(data => {
@@ -24,14 +26,19 @@
                 else{
                     term.write("command not found\r\n");
                 }
-                term.write("[agent@{{ id }}]:~# ");
 
+                command="";
             }
 
             else if (data === '\x7f'){
-                term.write('\b \b');
+                if (command.length > 0) {
+                    command = command.slice(0, -1);
+                    term.write('\b \b');
+                }
+               
             }
             else{
+                command+=data
                 term.write(data);
             }
         });

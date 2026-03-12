@@ -2,11 +2,13 @@ from flask import Flask
 from therum.config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_socketio import SocketIO, emit
 
 db = SQLAlchemy()
 migrate = Migrate()
 
 def Therum(config_class=Config):
+    socket = SocketIO()
     app = Flask(__name__, template_folder="../ui/templates/", static_folder="../ui/static/")
     app.config.from_object(config_class)
     app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -17,5 +19,7 @@ def Therum(config_class=Config):
     
     from therum.views import bp as main_bp
     app.register_blueprint(main_bp)
+
+    socket.init_app(app)
     
     return app
