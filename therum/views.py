@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, jsonify, redirect
-from therum.helper import get_region
 
 bp = Blueprint('main', __name__)
 
@@ -12,6 +11,7 @@ def status():
     host = request.json.get("hostname")
     os = request.json.get("os")
     uptime_agent = request.json.get("uptime")
+    region = request.json.get("country")
     ip = request.remote_addr
 
     if bot_id not in agents:
@@ -19,7 +19,7 @@ def status():
             "Address": ip,
             "Hostname":host,
             "OS":os,
-            "Region":get_region(ip),
+            "Country":region,
             "last_check": uptime_agent
         }
 
