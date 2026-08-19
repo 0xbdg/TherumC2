@@ -134,6 +134,12 @@ nav .menu {
     height: 100%;
 }
 
+.feed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #terminal {
     width: 100%;
     margin: 10px;
