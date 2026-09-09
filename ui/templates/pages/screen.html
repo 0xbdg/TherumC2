@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %} Screen | {{ id }} {% endblock %}
+
+{% block contents %}
+<img id="screen" width="640" height="480" />
+
+<script>
+    const socket = io();
+    const img = document.getElementById('screen');
+    let currentUrl = null;
+
+    socket.on('display_frame', (arrayBuffer) => {
+        // Convert raw binary ArrayBuffer directly to a Blob URL (avoids Base64 overhead)
+        const blob = new Blob([arrayBuffer], {type: 'image/jpeg'});
+
+        // Revoke previous URL to prevent browser memory leaks
+        if (currentUrl) URL.revokeObjectURL(currentUrl);
+
+        currentUrl = URL.createObjectURL(blob);
+        img.src = currentUrl;
+    });
+</script>
+{% endblock %}

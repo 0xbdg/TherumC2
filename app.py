@@ -1,6 +1,7 @@
-from therum import Therum
+from therum import Therum, socket
 
 app = Therum()
 
 if __name__ == "__main__":
-    app.run()
+    #app.run()
+    socket.run(app,debug=True)

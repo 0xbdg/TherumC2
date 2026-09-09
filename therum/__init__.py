@@ -6,9 +6,11 @@ from flask_socketio import SocketIO, emit
 
 db = SQLAlchemy()
 migrate = Migrate()
+socket = SocketIO()
+
 
 def Therum(config_class=Config):
-    socket = SocketIO()
+
     app = Flask(__name__, template_folder="../ui/templates/", static_folder="../ui/static/")
     app.config.from_object(config_class)
     app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -20,6 +22,6 @@ def Therum(config_class=Config):
     from therum.views import bp as main_bp
     app.register_blueprint(main_bp)
 
-    socket.init_app(app)
+    socket.init_app(app,cors_allowed_origins="*", async_mode='eventlet')
     
     return app
